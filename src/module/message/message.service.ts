@@ -10,7 +10,7 @@ export class MessageService {
   async sendMessage(input: SendMessageInput) {
     const { senderId, roomId } = input;
     await this.verifyChatRoomExistance(roomId);
-    await this.verifySenderIdExistance(senderId);
+    await this.verifySenderIdExistance(senderId, roomId);
 
     const message = await this.prisma.message.create({
       data: {
@@ -45,14 +45,11 @@ export class MessageService {
     }
   }
 
-  private async verifySenderIdExistance(id: string) {
-    const user = await this.prisma.chatRoom.findFirst({
+  private async verifySenderIdExistance(id: string, roomId: string) {
+    const user = await this.prisma.member.findFirst({
       where: {
-        members: {
-          every: {
-            id: id,
-          },
-        },
+        chatRoomId: roomId,
+        id: id,
       },
     });
 

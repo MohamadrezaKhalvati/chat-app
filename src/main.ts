@@ -1,4 +1,4 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
@@ -8,6 +8,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ServerResponse } from 'http';
 import { AppModule } from './app.module';
 
+const logger = new Logger();
 function setupCors(app: INestApplication) {
   app.enableCors();
 }
@@ -41,5 +42,6 @@ async function bootstrap() {
   setupGlobalValidation(app);
   setupCors(app);
   await app.listen(3001);
+  logger.log('app is running on port 3001');
 }
 bootstrap();

@@ -1,5 +1,5 @@
 datasource db {
-    provider = "mongodb"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
@@ -8,17 +8,24 @@ generator client {
 }
 
 model ChatRoom {
-    id       String    @id @default(auto()) @map("_id") @db.ObjectId
+    id       String    @id @default(uuid()) @db.Uuid
     name     String    @unique
-    members  Json[]
+    members  Member[]
     messages Message[] @relation("RoomMessages")
 }
 
+model Member {
+    id         String    @id @default(uuid()) @db.Uuid
+    username   String
+    ChatRoom   ChatRoom? @relation(fields: [chatRoomId], references: [id])
+    chatRoomId String?   @db.Uuid
+}
+
 model Message {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    senderId  String   @db.ObjectId
+    id        String   @id @default(uuid()) @db.Uuid
+    senderId  String   @db.Uuid
     content   String
     createdAt DateTime @default(now()) @db.Timestamp
-    roomId    String   @db.ObjectId
+    roomId    String   @db.Uuid
     chatRoom  ChatRoom @relation("RoomMessages", fields: [roomId], references: [id])
 }

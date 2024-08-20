@@ -43,7 +43,9 @@ export class ChatRoomService {
     );
 
     if (isAlreadyMember) {
-      throw new Error('User is already a member of the chat room');
+      throw new BadRequestException(
+        'User is already a member of the chat room',
+      );
     }
 
     const updatedMembers = [
@@ -55,7 +57,7 @@ export class ChatRoomService {
       where: { id: chatRoomId },
       data: {
         members: {
-          update: updatedMembers,
+          set: updatedMembers,
         },
       },
     });
@@ -63,16 +65,6 @@ export class ChatRoomService {
     return updatedChatRoom;
   }
 
-  async verifyUserExistance(id) {
-    const user = await await this.prisma.member.findFirst({
-      where: {
-        id: id,
-      },
-    });
-    if (!user) {
-      throw new BadRequestException('User With This UserId Does Not Existance');
-    }
-  }
   async verifyChatRoomIsNotDuplicated(name: string) {
     const chatroom = await this.prisma.chatRoom.findFirst({
       where: {

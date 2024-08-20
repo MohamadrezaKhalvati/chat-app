@@ -1,0 +1,32 @@
+name: app
+services:
+  db:
+    image: postgres:13
+    container_name: postress
+    networks:
+      - app
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: chat-app
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  chat-app:
+    image: chat-app
+    container_name: chat-app
+    networks:
+      - app
+    environment:
+      - DATABASE_URL=postgresql://root:1234@db:5432/chat-app
+    ports:
+      - '3001:3001'
+    depends_on:
+      - db
+
+networks:
+  app:
+volumes:
+  db_data:
