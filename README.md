@@ -1,5 +1,3 @@
-Here's a sample `README.md` file that you can use for your NestJS project with PostgreSQL, Docker, and Swagger setup. This file will guide users on how to set up and run your project.
-
 # Novindo Task Project
 
 This is a NestJS application developed as a task for a job interview. The project uses PostgreSQL as the database, is fully Dockerized for easy setup, and has Swagger documentation for the API.
