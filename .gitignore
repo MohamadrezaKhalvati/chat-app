@@ -13,7 +13,7 @@ lerna-debug.log*
 
 
 .vscode
-
+.env
 # OS
 .DS_Store
 
