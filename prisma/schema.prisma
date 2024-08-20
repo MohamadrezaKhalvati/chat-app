@@ -1,0 +1,31 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ChatRoom {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  members  Member[] @relation("RoomMembers")
+  messages Message[] @relation("RoomMessages")
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  senderId  String   @db.ObjectId
+  content   String
+  createdAt DateTime @default(now()) @db.Timestamp
+  roomId    String   @db.ObjectId
+  chatRoom ChatRoom @relation("RoomMessages", fields: [roomId], references: [id])
+}
+
+model Member {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  roomId    String   @db.ObjectId
+  joinedAt  DateTime @default(now()) @db.Timestamp
+  chatRoom ChatRoom @relation("RoomMembers", fields: [roomId], references: [id])
+}
