@@ -18,6 +18,9 @@ export class ChatRoomController {
   }
 
   @Post(':chatRoomId/add-user')
+  @ApiOperation({ operationId: 'Join Chat Room' })
+  @ApiBody({ type: AddUserToRoomInput })
+  @ApiResponse({ status: 200 })
   async addUserToChatroom(
     @Param('chatRoomId') chatRoomId: string,
     @Body() input: AddUserToRoomInput,

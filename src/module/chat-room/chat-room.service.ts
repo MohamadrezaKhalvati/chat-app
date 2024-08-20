@@ -63,7 +63,7 @@ export class ChatRoomService {
     return updatedChatRoom;
   }
 
-  private async verifyUserExistance(id) {
+  async verifyUserExistance(id) {
     const user = await await this.prisma.member.findFirst({
       where: {
         id: id,
@@ -73,7 +73,7 @@ export class ChatRoomService {
       throw new BadRequestException('User With This UserId Does Not Existance');
     }
   }
-  private async verifyChatRoomIsNotDuplicated(name: string) {
+  async verifyChatRoomIsNotDuplicated(name: string) {
     const chatroom = await this.prisma.chatRoom.findFirst({
       where: {
         name: name,
