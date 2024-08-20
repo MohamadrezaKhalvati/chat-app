@@ -42,7 +42,7 @@ Ensure you have the following installed on your machine:
 
 ## Running the Application
 
-After running `docker-compose up --build`, the NestJS application will be running on [http://localhost:3000](http://localhost:3000).
+After running `docker-compose up --build`, the NestJS application will be running on [http://localhost:3001](http://localhost:3001).
 
 ### Connecting to the Database
 
